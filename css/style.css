@@ -5,3 +5,7 @@ ul{
 #editPanel{
   display: none;
 }
+
+#addSubTaskPanel{
+  display: none;
+}
