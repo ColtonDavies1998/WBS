@@ -221,18 +221,52 @@ SubTask array of the proper task. After that it is then displayed onto the strin
 function addSubTaskSubmit() {
   //grabs the input from the user
   let subTaskName = document.getElementById("subTaskInput").value;
-
   //goes through the array of taskLists
   for (var a = 0; a < taskList.length; a++) {
-
     //looks for the task list that matches not only the name but the id
-    if (taskList[a].taskId == tempId && taskList[a].taskName == tempTaskName) {
+    if (taskList[a].taskId == tempId && tempTaskName.includes(taskList[a].taskName) == true) {
       //once found creates a new object of subTask and fills out all of its attributes
       let newTask = Object.create(subTask);
       newTask.taskId = taskList[a].subTasks.length + 1;
       newTask.taskName = subTaskName.toString();
       newTask.subTasks = [];
       newTask.parentTaskId = taskList[a].taskId;
+
+
+
+      //creates LI and gives it a class anme
+      let subTaskNode = document.createElement("LI");
+      subTaskNode.className = "task";
+
+      //creates the delete button INPUT and adds attributes, a class and an event listener
+      let deleteNode = document.createElement("input");
+      deleteNode.setAttribute("type", "submit");
+      deleteNode.setAttribute("value", "delete");
+      deleteNode.className = "delete";
+      deleteNode.addEventListener("click", deleteTask);
+
+      //creates the addSubTask button INPUT and adds attributes, a class and an event listener
+      let addSubTaskNode = document.createElement("input");
+      addSubTaskNode.setAttribute("type", "submit");
+      addSubTaskNode.setAttribute("value", "add");
+      addSubTaskNode.className = "add";
+      addSubTaskNode.addEventListener("click", addSubTask);
+
+      //creates the edit button and adds the attributes and a class and an event listener
+      let editTaskNode = document.createElement("input");
+      editTaskNode.setAttribute("type", "submit");
+      editTaskNode.setAttribute("value", "edit");
+      editTaskNode.className = "edit";
+      editTaskNode.addEventListener("click", editTaskMode);
+
+      //creates textnode
+      let textNode = document.createTextNode(newTask.toString());
+
+      //appends everything together
+      subTaskNode.appendChild(textNode);
+      subTaskNode.appendChild(editTaskNode);
+      subTaskNode.appendChild(addSubTaskNode);
+      subTaskNode.appendChild(deleteNode);
 
       /*If the attribute subTask of taskList[a] is 0, it means there are no sub tasks.
       This makes us have to create a new UL and add the information to an li which appends
@@ -241,48 +275,18 @@ function addSubTaskSubmit() {
         //creates UL and gives it a class name
         let listNode = document.createElement("UL");
         listNode.className = "subList";
-        //creates LI and gives it a class anme
-        let subTaskNode = document.createElement("LI");
-        subTaskNode.className = "task";
 
-        //creates the delete button INPUT and adds attributes, a class and an event listener
-        let deleteNode = document.createElement("input");
-        deleteNode.setAttribute("type", "submit");
-        deleteNode.setAttribute("value", "delete");
-        deleteNode.className = "delete";
-        deleteNode.addEventListener("click", deleteTask);
-
-        //creates the addSubTask button INPUT and adds attributes, a class and an event listener
-        let addSubTaskNode = document.createElement("input");
-        addSubTaskNode.setAttribute("type", "submit");
-        addSubTaskNode.setAttribute("value", "add");
-        addSubTaskNode.className = "add";
-        addSubTaskNode.addEventListener("click", addSubTask);
-
-        //creates the edit button and adds the attributes and a class and an event listener
-        let editTaskNode = document.createElement("input");
-        editTaskNode.setAttribute("type", "submit");
-        editTaskNode.setAttribute("value", "edit");
-        editTaskNode.className = "edit";
-        editTaskNode.addEventListener("click", editTaskMode);
-
-        //creates textnode
-        let textNode = document.createTextNode(newTask.toString());
-
-        //appends everything together
-        subTaskNode.appendChild(textNode);
-        subTaskNode.appendChild(editTaskNode);
-        subTaskNode.appendChild(addSubTaskNode);
-        subTaskNode.appendChild(deleteNode);
         listNode.appendChild(subTaskNode);
+
         //appends the ul to the Task that was clicked
         tempEvent.target.parentElement.appendChild(listNode);
 
       }
       /*This else is if the subTask array length is greater than 0, which means it already has a subtask and a UL created, so we dont need to create the ul again just append the LI to the existing UL */
       else {
-        /*NOTE: Not finished yet all the create of the LI does not need to be done twice.
-         move that code out if this set of if statements when this else is finished*/
+
+        tempEvent.target.nextElementSibling.nextElementSibling.appendChild(subTaskNode);
+
       }
       //push the new created subtask into the object
       taskList[a].subTasks.push(newTask);
@@ -295,4 +299,6 @@ function addSubTaskSubmit() {
 
   //rests the tempEvent back to null
   tempEvent = null;
+  tempId = '';
+  tempTaskName = '';
 }
