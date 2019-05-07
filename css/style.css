@@ -9,3 +9,11 @@ ul{
 #addSubTaskPanel{
   display: none;
 }
+
+#editSubTaskPanel{
+  display: none;
+}
+
+#addLowerSubTaskPanel{
+  display: none;
+}

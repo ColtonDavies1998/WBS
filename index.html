@@ -15,22 +15,28 @@
   <h3>Create new Task</h3>
   <input type="text" id="taskInput">
   <button id="newTaskSubmitButton">Submit</button>
-
+  <p id="taskSubmitError"></p>
   <br>
-
-
 
   <ul id="mainList"></ul>
 
   <div id="editPanel">
+    <h2>Edit Task</h2>
     <input type="text" id="editInput">
     <button id="editTaskSubmitButton">Edit</button>
+    <button id="exitButtonEdit">X</button>
+    <p id="editError"></p>
   </div>
 
   <div id="addSubTaskPanel">
+    <h2>Add Sub Task</h2>
     <input type="text" id="subTaskInput">
     <button id="addSubTaskSubmitButton">Add</button>
+    <button id="exitButtonSubTask">X</button>
+    <p id="addSubTaskError"></p>
   </div>
+
+
 
   <script src="js/script.js"></script>
 </body>
